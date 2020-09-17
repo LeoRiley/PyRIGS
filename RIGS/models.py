@@ -333,6 +333,8 @@ class Event(models.Model, RevisionMixin):
     auth_request_at = models.DateTimeField(null=True, blank=True)
     auth_request_to = models.EmailField(null=True, blank=True)
 
+    forum_url = models.URLField(null=True, blank=True)
+
     @property
     def display_id(self):
         return str("N%05d" % self.pk)

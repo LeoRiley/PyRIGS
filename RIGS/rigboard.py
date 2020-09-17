@@ -425,3 +425,20 @@ class EventAuthoriseRequestEmailPreview(generic.DetailView):
         })
         context['to_name'] = self.request.GET.get('to_name', None)
         return context
+
+
+class CreateForumThread(generic.base.RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        event = get_object_or_404(models.Event, pk=kwargs['pk'])
+
+        if event.forum_url:
+            return event.forum_url
+
+        params = {
+            'title': str(event),
+            'body': 'https://rigs.nottinghamtec.co.uk/event/{}'.format(event.pk),
+            'category': 'rig-info'
+        }
+        return 'https://forum.nottinghamtec.co.uk/new-topic' + "?" + urllib.parse.urlencode(params)
